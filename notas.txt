@@ -1,0 +1,59 @@
+Se hace la autentificacion
+mysql -u root -p
+pide contraseña
+
+RECOMENDACION USAR MAYUSCULAS
+
+show databases; --> Muestra las bases de datos
+create database codigofacilito; --> crea el nombre de la base de dato
+USE codigofacilito; --> Selecciona la base de datos
+SHOW TABLES; --> muestra las tablas
+desc users; --> muestra la descripcion + nombre de tablas
+
+----------------------------------
+CONSTRAINTS
+
+CREATE TABLE users(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    age INT UNSIGNED NOT NULL,
+    status ENUM('active','inactive') DEFAULT 'inactive',
+    bio TEXT ,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+);
+
+
+Esta es la tabla en lo cual se obvia las tablas que not null son
+INSERT INTO users (username, email, age) VALUES ('user1','user1@test.com',17);
+
+SELECT * FROM users;  --> obtener todas las columnas de todos los usuarios
+
+SE ingresa datos
+
+INSERT INTO users (username, email, age) VALUES ('user1','user1@test.com',20);
+INSERT INTO users (username, email, age) VALUES ('user2','user2@test.com',31);
+INSERT INTO users (username, email, age, status) VALUES ('user3','user3@test.com', 17, 'active');
+INSERT INTO users (username, email, age, status) VALUES ('user4','user4@test.com', 25, 'active');
+INSERT INTO users (username, email, age, status) VALUES ('user5','user5@test.com', 42, 'active');
+INSERT INTO users (username, email, age, bio) VALUES ('user6','user6@test.com', 34, 'Simple Bio');
+INSERT INTO users (username, email, age, bio) VALUES ('user7','user7@test.com', 15, 'Simple Bio');
+INSERT INTO users (username, email, age, bio) VALUES ('user8','user8@test.com', 54, 'Simple Bio');
+
+
+HACE QUE LA PRESENTACION SEA MAS LEGIBLE
+select * from users\G;
+
+SELECT * FROM users WHERE ORDER BY age ASC;  ordenar de manera ascendente
+SELECT * FROM users WHERE ORDER BY age DESC; ordenar de manera descendente
+
+
+
+------------
+PREFIJOS Y SUFIJOS
+
+SELECT * FROM users WHERE email LIKE '%.com';  -- Obtiene usuarios que TERMINEN en .com
+SELECT * FROM users WHERE email LIKE 'users%'; -- Obtiene los usuaios que INICIEN
+ 
+
+
