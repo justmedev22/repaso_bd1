@@ -1,0 +1,120 @@
+-- Forma de relacionar nuestras tablas 
+-- 1 a muchos
+
+-- Un usuario puede poseer multiples comentarios
+-- Comentario le pertene a un usuario
+
+-- Comments
+
+CREATE TABLE comments(
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    titile VARCHAR(50),
+    user_id INT, -- llave foranea
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+ 
+-- PARA REFERERISE A LA LLAVE FORANEA SON LAS 
+-- LLAVES PRIMARIAS DE OTRA TABLA
+-- La linea de codigo que resalta dicho script
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+
+para ver las tablas
+SHOW TABLES;
+
+INSERCCIONES DE LA TABLA , DEBES RESPETAR LA LLAVE FORANEA
+-- Debemos respetar las llaves foraneas de otras tablas
+
+INSERT INTO comments (title, user_id) VALUES ('Titulo 1', 1);
+
+otros valores
+INSERT INTO comments (title, user_id) VALUES ('Titulo 2', 1);
+INSERT INTO comments (title, user_id) VALUES ('Titulo 3', 1);
+INSERT INTO comments (title, user_id) VALUES ('Titulo 4', 2);
+INSERT INTO comments (title, user_id) VALUES ('Titulo 5', 3);
+INSERT INTO comments (title, user_id) VALUES ('Titulo 6', 3);
+INSERT INTO comments (title, user_id) VALUES ('Titulo 7', 2);
+INSERT INTO comments (title, user_id) VALUES ('Titulo 8', 4);
+
+ON DELETE CASCADE --> elimina en cascada para que no afecte
+a la tabla principal
+
+
+EJERCICIOS
+-- INNER JOIN , Intersecciona las tablas
+
+Para ver ambas tablas a la vez
+SELECT * FROM users INNER JOIN comments ON users.id = comments.user_id;
+> el inner join junta ambas tablas 
+> users.id -> toma como referencia los ids
+> comments.user_id -> toma como referencia de su tabla
+> ambos datos se relacionan mostrando DATOS EN COMUN
+> tomamos sus valores REDUNDANTES
+
+Para ver las columnas respectivas de cada tabla se debe especificar
+SELECT users.username, users.email FROM users INNER JOIN 
+comments ON users.id = comments.user_id;
+
+> poreso se coloca 
+> users.username --> se usa como referencia de la tabla users
+> users.email --> se usa como referencia de la tabla users
+> comments.user_id --> se usa como referencia de la tabla comments
+
+DISTINCT --> hace que los registros sean unicos , que no SE REPITAN
+
+Usuarios activos que han comentado
+SELECT users.username, users.email FROM users INNER JOIN comments 
+ON users.id = comments.user_id WHERE users.status = 'active';
+
+USO DE LEFT JOIN
+> trae lo de la izquierda (con gpt se entiende)
+SELECT * FROM users LEFT JOIN comments ON users.id = comments.user_id;
+
+> si bien cruza las tablas pero en caso de dato null solo los muestra pero no los esconde
+> el inner solo muestra los datos , los esconde
+SELECT * FROM users LEFT JOIN comments ON users.id = comments.user_id where comments.user_id is NULL;
+
+> obtener el email y usuario con mayor cantidad de comentarios al dia de hoy
+SELECT
+    users.username,
+    users.email,
+    count(*) AS 'cantidad_comentarios'
+FROM users
+INNER JOIN comments ON users.id = comments.user_id
+WHERE DATE(comments.created_at) = '2021-07-23'
+GROUP BY users.username
+ORDER BY cantidad_comentarios DESC
+LIMIT 1;
+
+
+codigo final de la ultima pregunta
+SELECT
+    username,
+    email
+FROM (
+    SELECT
+        users.username,
+        users.email,
+        count(*) AS 'cantidad_comentarios'
+    FROM users
+    INNER JOIN comments ON users.id = comments.user_id
+    WHERE DATE(comments.created_at) = '2021-07-23'
+    GROUP BY users.username
+    HAVING cantidad_comentarios >= 2
+    ORDER BY cantidad_comentarios DESC
+) AS resultado;
+
+
+===========================
+CONSEJO FINAL
+
+REALIZAR UN RESPALDO 
+> hace que la base de datos se convierta en un archivo dump
+> realiza una forma de salvar la informacion
+mysqldump -u root -p codigofacilito > dump.sql
+
+> para restaurar la base de datos
+mysqldump -u root -p codigofacilito <dump.sql dump.sql
+
+
+

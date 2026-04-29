@@ -12,7 +12,7 @@ CREATE TABLE users(
     age INT UNSIGNED NOT NULL,
     status ENUM('active','inactive') DEFAULT 'inactive',
     bio TEXT ,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
 );
 
 -- EJERCICIOS
@@ -73,4 +73,19 @@ SELECT * FROM users WHERE email LIKE 'users%'; -- Obtiene los usuaios que INICIE
 SELECT * FROM users WHERE email LIKE '%@%';  -- Obtiene los usuarios que tengan lo que esta en medio del %%
 
 -- ***********************
--- ACTUALIZAR LOS DATOS DE LA TABLA
+-- ACTUALIZAR LOS DATOS DE LA TABLA -- me quede en esta parte
+-- Para actualizar una parte de la tabla
+UPDATE users SET bio='Desarrollador de Software' WHERE id = 1;
+
+-- se pueden actualizar 2 columnas a la vez
+UPDATE users SET bio='Desarrollador de Software', username = 'eduardo_gpr' WHERE id = 1;
+
+-- Para eliminar las tablas se debe realizar un delete
+DELETE FROM users WHERE id = !;
+
+
+-- Delete .> Eliminar registros --> Triggers
+-- Truncate -> Eliminar registros y restablecer la informacion de la tabla
+-- truncate users;
+-- reinicia desde 1 el id
+

@@ -52,8 +52,30 @@ SELECT * FROM users WHERE ORDER BY age DESC; ordenar de manera descendente
 ------------
 PREFIJOS Y SUFIJOS
 
+uso de LIKE y el %
+
 SELECT * FROM users WHERE email LIKE '%.com';  -- Obtiene usuarios que TERMINEN en .com
 SELECT * FROM users WHERE email LIKE 'users%'; -- Obtiene los usuaios que INICIEN
- 
+SELECT * FROM users WHERE email LIKE '%@%';  -- Obtiene los usuarios que tengan lo que esta en medio del %%
+
+-----------------------
+PARTE DE ACTUALIZAR CODIGO
+UPDATE users SET bio='Desarrollador de Software', username = 'eduardo_gpr' WHERE id = 1;
+
+Para hacerlo mas legible
+select * from users where id = 1\G;
+
+-- Para eliminar las tablas se debe realizar un delete
+DELETE FROM users WHERE id = !;
+
+
+
+
+
+
+
+
+
+
 
 
